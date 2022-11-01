@@ -23,10 +23,26 @@ namespace sims3_mod_enabler
     internal class NodeManager
     {
         private Node root;
+        private Dictionary<string, Node> nodeMap;
+        private string inputPath;
+        public int numberOfFiles;
 
         public NodeManager(string inputPath)
         {
-            root = new Node(inputPath);
+            this.inputPath = inputPath;
+            nodeMap = new Dictionary<string, Node>();
+            numberOfFiles = Directory.GetFiles(inputPath, "*.package", SearchOption.AllDirectories).Length;
+            numberOfFiles += Directory.GetDirectories(inputPath, "", SearchOption.AllDirectories).Length;
+        }
+
+        internal void LoadPackages()
+        {
+            root = new Node(nodeMap, this.inputPath);
+        }
+
+        internal int GetProgress() {
+            int value = (int) (((float) nodeMap.Count / (float) numberOfFiles)*100.0);
+            return value;
         }
 
         internal Node Root { get => root; set => root = value; }
@@ -60,7 +76,7 @@ namespace sims3_mod_enabler
         {
             foreach (string package in packages)
             {
-                this.root.FindByHash(package).isEnabled = true;
+                FindNode(package).isEnabled = true;
             }
         }
 
@@ -93,6 +109,11 @@ namespace sims3_mod_enabler
                 }
             }
             return enabled;
+        }
+
+        public Node FindNode(string hash)
+        {
+            return nodeMap[hash];
         }
     }
 }
