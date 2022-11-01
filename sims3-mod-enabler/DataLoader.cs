@@ -80,12 +80,11 @@ namespace sims3_mod_enabler
                 {
                     Progress = GetProgress();
                     NotifyPropertyChanged("Progress");
-                    //ProgressChanged(this, EventArgs.Empty);
                     if (Progress >= 100)
                     {
                         break;
                     }
-                    Thread.Sleep(1);
+                    Thread.Sleep(100);
                 }
             });
 

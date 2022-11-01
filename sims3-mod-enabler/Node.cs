@@ -23,6 +23,8 @@ namespace sims3_mod_enabler
         public List<Node>? dirs = null;
         public List<Node>? files = null;
 
+        public Node() { }
+
         public Node(Dictionary<string, Node> nodeMap, string filepath, string parentHash = "")
         {
             //Debug.WriteLine(filepath);
@@ -40,10 +42,11 @@ namespace sims3_mod_enabler
                 dirs = InitializeList(Directory.GetDirectories, nodeMap);
                 files = InitializeList(Directory.GetFiles, nodeMap);
             }
-            if (this.hash != null) {
+            //if (this.hash != null)
+            //{
                 nodeMap[this.hash] = this;
-            }
-            
+            //}
+
         }
 
         private void CalculateHash()
@@ -88,7 +91,7 @@ namespace sims3_mod_enabler
             foreach (string entry in dataListed)
             {
                 bool isEntryAFile = IsFile(entry);
-                if (isEntryAFile && entry.Contains(packageExtension) || !isEntryAFile)
+                if (isEntryAFile && (entry.EndsWith(packageExtension)) || !isEntryAFile)
                 {
                     worklist.Add(new Node(nodeMap, entry, this.hash));
                 }

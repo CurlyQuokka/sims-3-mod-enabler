@@ -44,9 +44,9 @@ namespace sims3_mod_enabler
 
         public List<string> ReadPackages()
         {
-            string[] files = Directory.GetFiles(GetGamesPackagesDir(), packagePattern, SearchOption.AllDirectories);
             List<string> packages = new List<string>();
 
+            string[] files = Directory.GetFiles(GetGamesPackagesDir(), packagePattern, SearchOption.AllDirectories);
             foreach (string file in files)
             {
                 string[] splitted = file.Split(Path.DirectorySeparatorChar);

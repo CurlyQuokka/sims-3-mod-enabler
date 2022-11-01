@@ -40,12 +40,20 @@ namespace sims3_mod_enabler
                     Invoke(() =>
                     {
                         int progress = reporter.GetProgress();
-                        loadingPackageBar.Value = progress;
+                        if (progress >= 100)
+                        {
+                            loadingPackageBar.Value = 100;
+                        }
+                        else
+                        {
+                            loadingPackageBar.Value = progress;
+                        }
                         // this is dirty hack to get the progress bar filled as much as possible
-                        if (progress > 0)
+                        if (progress > 0 && progress < 100)
                         {
                             loadingPackageBar.Value = progress - 1;
                         }
+                        
                     });
                 }
                 else
